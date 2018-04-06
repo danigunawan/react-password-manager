@@ -18,7 +18,7 @@ class Login extends Component {
     super(props, context);
 
     this.state = {
-      username: '',
+      email: '',
       password: '',
       error: {
         status: false,
@@ -28,8 +28,8 @@ class Login extends Component {
   }
 
   validateForm = () => {
-    const { username, password } = this.state
-    if (username === '') {
+    const { email, password } = this.state
+    if (email === '') {
       this.setState({
         error: {
           status: true,
@@ -50,11 +50,11 @@ class Login extends Component {
   }
   
   submitForm = () => {
-    const { username, password } = this.state
+    const { email, password } = this.state
     const app = this
 
     if(this.validateForm()) {
-      const input = { username, password }
+      const input = { email, password }
       axios.post('/users/signin', input).then(resp => {
         const { data }  = resp
         if(data.token !== ''){
@@ -81,16 +81,17 @@ class Login extends Component {
         <Grid>
           <Row className="show-grid">
             <Col md={4} mdOffset={4} >
+              <h2> Login </h2>
               <Alert status="danger" show={ error.status } message={ error.message } />
               <form>
                  <FormGroup
-                    controlId="username"
+                    controlId="email"
                   >
                     <ControlLabel>Username</ControlLabel>
                     <FormControl
                       type="text"
-                      value={this.state.username}
-                      name="username"
+                      value={this.state.email}
+                      name="email"
                       placeholder="Enter Username"
                       onChange={this.handleChange}
                     />
