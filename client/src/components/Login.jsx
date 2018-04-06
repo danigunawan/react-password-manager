@@ -58,7 +58,7 @@ class Login extends Component {
       axios.post('/users/signin', input).then(resp => {
         const { data }  = resp
         if(data.token !== ''){
-          alert('login berhasil') 
+          localStorage.setItem('token', data.token)
           app.props.history.push('/'); 
         }
         }).catch( err => {
