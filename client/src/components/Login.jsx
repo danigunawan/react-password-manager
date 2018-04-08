@@ -10,6 +10,7 @@ import {
 } from 'react-bootstrap';
 import Alert from './AlertPanel'
 import axios from '../axios'
+import { Redirect  } from 'react-router-dom'
 
 class Login extends Component {
 
@@ -76,6 +77,9 @@ class Login extends Component {
 
   render() {
     const { error } = this.state
+    if(localStorage.token !== undefined){
+      return <Redirect to="/" />
+    }
     return (
       <div className="Login">
         <Grid>

@@ -10,6 +10,16 @@ module.exports = {
       })
     })
   },
+  find (req, res) {
+    const id = req.params.id
+    Password.findOne({user: req.user._id, _id: id }).exec(function (err, data) {
+      if(err) return res.status(500).json({ message: err })
+      return res.status(200).json({
+        message: "Success Read a Password",
+        data
+      })
+    })
+  },
   create (req, res) {
     const { url, username, password} = req.body
     const user = req.user._id

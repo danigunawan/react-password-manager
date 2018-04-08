@@ -6,22 +6,23 @@ import {
   Row, 
   FormControl, 
   FormGroup, 
-  ControlLabel
+  ControlLabel,
+	Breadcrumb
 } from 'react-bootstrap';
 import Alert from './AlertPanel'
 import axios from '../axios'
-import { Redirect } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 
-class Register extends Component {
+class EditPassword extends Component {
 
 
  constructor(props, context) {
     super(props, context);
 
     this.state = {
-      email: '',
-      password: '',
-      name: '',
+			username: '',
+			password: '',
+			url: '',
       error: {
         status: false,
         message: ''
@@ -30,16 +31,16 @@ class Register extends Component {
   }
 
   validateForm = () => {
-    const { email, password, name } = this.state
-    if (name === '') {
+    const { username, password, url } = this.state
+    if (url === '') {
       this.setState({
         error: {
           status: true,
-          message: 'Name is required'
+          message: 'URL is required'
         }
       })
       return false
-    } else if (email === '') {
+    } else if (username === '') {
       this.setState({
         error: {
           status: true,
@@ -58,24 +59,31 @@ class Register extends Component {
     }
     return true
   }
-  
+ 	
+	fetchPassword = () => {
+		const { id } = this.props.match.params
+		axios.get(`/passwords/${id}`, { headers: { token: localStorage.token }}).then(resp => {
+			const { data } = resp.data
+			this.setState({ username: data.username, password: data.password, url: data.url})
+		}).catch( err => {
+			this.setState({ error: { status: true, message: 'Something Went Wrong'} })
+		})	
+	} 
   submitForm = () => {
-    const { name, email, password } = this.state
     const app = this
+    const { username, password, url } = this.state
+		const input = { username, password, url }
+		const { id  } = this.props.match.params
 
     if(this.validateForm()) {
-      const input = { name, email, password }
-      axios.post('/users/register', input).then(resp => {
+      axios.put(`/passwords/${id}`, input, { headers: { token: localStorage.token } } ).then(resp => {
         const { data }  = resp
-        if(data.token !== ''){
-          localStorage.setItem('token', data.token)
+        if(data.data.username === username){
           app.props.history.push('/'); 
         }
         }).catch( err => {
           console.log(err)
-          this.setState({ error: { status: true, message: 'Email Has Been Used' } })
-          if(err.request.status === 400) {
-          }
+          this.setState({ error: { status: true, message: 'Something Went Wrong' } })
         })
        
     }
@@ -83,42 +91,53 @@ class Register extends Component {
   handleChange = (e) => {
     this.setState({ [e.target.name]: e.target.value });
   }
+	componentDidMount () {
+		this.fetchPassword()
+	}
 
   render() {
-    const { error } = this.state
-    if(localStorage.token !== undefined){
-      return <Redirect to="/" />
+    const { error, url, username, password } = this.state
+    if(localStorage.token === undefined){
+      return <Redirect to="/login" />
     }
     return (
-      <div className="Register">
+      <div className="CreatePasswod">
         <Grid>
           <Row className="show-grid">
             <Col md={4} mdOffset={4} >
-              <h2> Register </h2>
+							<Breadcrumb>
+								<Breadcrumb.Item >
+								  <Link to="/">Home </Link>
+								</Breadcrumb.Item>
+								<Breadcrumb.Item active>
+									Edit Password
+								</Breadcrumb.Item>
+							</Breadcrumb>
+              <h2> Edit Password </h2>
               <Alert status="danger" show={ error.status } message={ error.message } />
               <form>
                  <FormGroup
-                    controlId="email"
+                    controlId="name"
                   >
-                    <ControlLabel>Username</ControlLabel>
+                    <ControlLabel>URL</ControlLabel>
                     <FormControl
                       type="text"
-                      value={this.state.email}
-                      name="email"
-                      placeholder="Enter Username"
+                      value={url}
+                      name="url"
+                      placeholder="Enter URL"
                       onChange={this.handleChange}
                     />
                     <FormControl.Feedback />
                   </FormGroup> 
                  <FormGroup
-                    controlId="name"
+                    controlId="username"
                   >
-                    <ControlLabel>Name</ControlLabel>
+                    <ControlLabel>Username</ControlLabel>
                     <FormControl
                       type="text"
-                      value={this.state.name}
-                      name="name"
-                      placeholder="Enter Name"
+                      value={username}
+                      name="username"
+                      placeholder="Enter Username"
                       onChange={this.handleChange}
                     />
                     <FormControl.Feedback />
@@ -129,14 +148,14 @@ class Register extends Component {
                     <ControlLabel>Password</ControlLabel>
                     <FormControl
                       type="password"
-                      value={this.state.password}
+                      value={password}
                       name="password"
                       placeholder="Enter Password"
                       onChange={this.handleChange}
                     />
                     <FormControl.Feedback />
                   </FormGroup> 
-                <Button type="button" onClick={this.submitForm} > Register </Button>
+                <Button type="button" onClick={this.submitForm} > Edit Password </Button>
               </form>
             </Col>
           </Row>
@@ -146,4 +165,4 @@ class Register extends Component {
   }
 }
 
-export default Register;
+export default EditPassword;
