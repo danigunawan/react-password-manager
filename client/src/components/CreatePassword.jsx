@@ -7,16 +7,14 @@ import {
   FormControl, 
   FormGroup, 
   ControlLabel,
-	Breadcrumb,
-  ListGroup,
-  Glyphicon,
-  ListGroupItem
+	Breadcrumb
 } from 'react-bootstrap';
 import Alert from './AlertPanel'
 import axios from '../axios'
 import { Link, Redirect } from 'react-router-dom'
 import isUrl from 'is-url'
 import passwordValidator from 'password-validator'
+import PasswordValidList from './PasswordValidList'
 
 class CreatePassword extends Component {
 
@@ -98,6 +96,7 @@ class CreatePassword extends Component {
 
     this.setState({ validPassword: validPassword, passwordPass })
   }
+
   validateURL = (url) => {
     if(!isUrl(url)) {
       this.setState({
@@ -241,28 +240,7 @@ class CreatePassword extends Component {
               <p> 
                 Password Strength: 
               </p>
-              <ListGroup>
-                <ListGroupItem>
-                  { validPassword.upperCase ? <Glyphicon glyph="ok" />:<Glyphicon glyph="remove" /> }
-                   Password harus memiliki setidaknya satu karakter huruf besar ( upper-case )
-                </ListGroupItem>
-                <ListGroupItem>
-                  { validPassword.lowerCase ? <Glyphicon glyph="ok" />:<Glyphicon glyph="remove" /> }
-                  Password harus memiliki setidaknya satu karakter huruf kecil ( lower-case )
-                </ListGroupItem>
-                <ListGroupItem>
-                  { validPassword.symbol ? <Glyphicon glyph="ok" />:<Glyphicon glyph="remove" /> }
-                  Password harus memiliki setidaknya satu karakter special ( #$@!&%... )
-                </ListGroupItem>
-                <ListGroupItem>
-                  { validPassword.number ? <Glyphicon glyph="ok" />:<Glyphicon glyph="remove" /> }
-                  Password harus memiliki setidaknya satu angka 
-                </ListGroupItem>
-                <ListGroupItem>
-                  { validPassword.length ? <Glyphicon glyph="ok" />:<Glyphicon glyph="remove" /> }
-                  Password harus memiliki panjang (length)  lebih dari 5 karakter
-                </ListGroupItem>
-              </ListGroup>
+              <PasswordValidList validPassword={validPassword} />
             </Col>
           </Row>
         </Grid>

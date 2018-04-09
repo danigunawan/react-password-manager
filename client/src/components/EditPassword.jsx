@@ -12,6 +12,9 @@ import {
 import Alert from './AlertPanel'
 import axios from '../axios'
 import { Link, Redirect } from 'react-router-dom'
+import isUrl from 'is-url'
+import passwordValidator from 'password-validator'
+import PasswordValidList from './PasswordValidList'
 
 class EditPassword extends Component {
 
@@ -26,12 +29,88 @@ class EditPassword extends Component {
       error: {
         status: false,
         message: ''
-      }
+      },
+      validPassword: {
+        upperCase: false,
+        lowerCase: false,
+        length: false,
+        symbol: false,
+        number: false
+      },
+      passwordPass: false
     };
+  }
+  validatePassword = (password) => {
+    const validPassword =  {
+        upperCase: false,
+        lowerCase: false,
+        length: false,
+        symbol: false,
+        number: false
+    }
+    let passwordPass = false
+    let schema = new passwordValidator()
+    schema.is().min(5)
+    if(schema.validate(password)) {
+      validPassword.length = true
+      passwordPass = true
+    } else {
+      passwordPass = false
+    }
+    schema = new passwordValidator()
+    schema.has().digits()
+    if(schema.validate(password)) {
+      validPassword.number = true
+      passwordPass = true
+    } else {
+      passwordPass = false
+    }
+
+    schema = new passwordValidator()
+    schema.has().uppercase()
+    if(schema.validate(password)) {
+      validPassword.upperCase = true
+      passwordPass = true
+    } else {
+      passwordPass = false
+    }
+
+    schema = new passwordValidator()
+    schema.has().lowercase()
+    if(schema.validate(password)) {
+      validPassword.lowerCase = true
+      passwordPass = true
+    } else {
+      passwordPass = false
+    }
+
+    schema = new passwordValidator()
+    schema.has().symbols()
+    if(schema.validate(password)) {
+      validPassword.symbol = true
+      passwordPass = true
+    } else {
+      passwordPass = false
+    }
+
+    this.setState({ validPassword: validPassword, passwordPass })
+  }
+
+  validateURL = (url) => {
+    if(!isUrl(url)) {
+      this.setState({
+        error: {
+          status: true,
+          message: 'URL is not valid'
+        }
+      })
+      return false
+    }
+    return true
   }
 
   validateForm = () => {
-    const { username, password, url } = this.state
+    const { username, password, url, passwordPass } = this.state
     if (url === '') {
       this.setState({
         error: {
@@ -57,6 +136,18 @@ class EditPassword extends Component {
       })
       return false
     }
+
+    if(!this.validateURL(url)) return false
+    if(!passwordPass) {
+      
+      this.setState({
+        error: {
+          status: true,
+          message: 'Password Not Strength'
+        }
+      })
+      return false
+    }
     return true
   }
  	
@@ -65,6 +156,7 @@ class EditPassword extends Component {
 		axios.get(`/passwords/${id}`, { headers: { token: localStorage.token }}).then(resp => {
 			const { data } = resp.data
 			this.setState({ username: data.username, password: data.password, url: data.url})
+      this.validatePassword(data.password)
 		}).catch( err => {
 			this.setState({ error: { status: true, message: 'Something Went Wrong'} })
 		})	
@@ -89,14 +181,18 @@ class EditPassword extends Component {
     }
   }
   handleChange = (e) => {
+    if (e.target.name === 'password') {
+      this.validatePassword(e.target.value) 
+    }
     this.setState({ [e.target.name]: e.target.value });
   }
 	componentDidMount () {
 		this.fetchPassword()
+    
 	}
 
   render() {
-    const { error, url, username, password } = this.state
+    const { error, url, username, password, validPassword } = this.state
     if(localStorage.token === undefined){
       return <Redirect to="/login" />
     }
@@ -157,6 +253,7 @@ class EditPassword extends Component {
                   </FormGroup> 
                 <Button type="button" onClick={this.submitForm} > Edit Password </Button>
               </form>
+              <PasswordValidList validPassword={validPassword} />
             </Col>
           </Row>
         </Grid>
