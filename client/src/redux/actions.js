@@ -1,6 +1,8 @@
 import {
   FETCH_PASSWORD,
   DELETE_PASSWORD,
+  SHOW_PASSWORD,
+  UNSHOW_PASSWORD,
   ERROR,
   LOADING_START,
   LOADING_END,
@@ -50,6 +52,20 @@ const searchPassword = (query) => {
   }
 }
 
+const showPassword = (id) => {
+  return {
+    type: SHOW_PASSWORD,
+    id
+  }
+}
+
+const unshowPassword = (id) => {
+  return {
+    type: UNSHOW_PASSWORD,
+    id
+  }
+}
+
 const errorSomethingWrong = { type: ERROR }
 const loadingStart = { type: LOADING_START }
 const loadingEnd = { type: LOADING_END }
@@ -57,5 +73,7 @@ const loadingEnd = { type: LOADING_END }
 export {
   fetchPassword,
   searchPassword,
-  deletePassword
+  deletePassword,
+  showPassword,
+  unshowPassword
 }

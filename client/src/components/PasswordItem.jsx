@@ -2,12 +2,14 @@ import React from 'react'
 import {Link} from 'react-router-dom'
 import date from 'date-and-time'
 import { connect  } from 'react-redux'
-import { deletePassword } from '../redux/actions'
+import { deletePassword,  unshowPassword } from '../redux/actions'
 import { bindActionCreators } from 'redux'
-import { Button } from 'react-bootstrap'
+import { 
+  Button
+} from 'react-bootstrap'
 
 const PasswordItem = (props) => {
-  const { passwords, deletePassword } = props
+  const { passwords, deletePassword,  unshowPassword } = props
 
   return passwords.map(p => {
 		const urlEdit = `/edit/${p._id}`
@@ -15,7 +17,13 @@ const PasswordItem = (props) => {
       <tr key={p._id}>
         <td>{p.url}</td>
         <td>{p.username}</td>
-        <td>{Array(p.password.length).join("*")}</td>
+        <td>{ p.show ? p.password :  Array(p.password.length).join("*")}
+          { p.show ?
+            <Button bsStyle="primary" onClick={() => unshowPassword(p._id)}>Unshow </Button>
+            :
+            <Link className="btn btn-primary" to={`/show-password/${p._id}`}>Show </Link>
+          }
+        </td>
         <td>{date.format(new Date(p.createdAt), 'DD MMM  YYYY')}</td>
         <td>{date.format(new Date(p.updatedAt), 'DD MMM YYYY')}</td>
 				<td>
@@ -27,7 +35,7 @@ const PasswordItem = (props) => {
   }) 
 }
 
-const mapDispatchToProps = dispatch => bindActionCreators({ deletePassword }, dispatch)
+const mapDispatchToProps = dispatch => bindActionCreators({ deletePassword,  unshowPassword }, dispatch)
 
 export default connect(null, mapDispatchToProps)(PasswordItem)
 
