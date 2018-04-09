@@ -7,12 +7,16 @@ import {
   FormControl, 
   FormGroup, 
   ControlLabel,
-	Breadcrumb
+	Breadcrumb,
+  ListGroup,
+  Glyphicon,
+  ListGroupItem
 } from 'react-bootstrap';
 import Alert from './AlertPanel'
 import axios from '../axios'
 import { Link, Redirect } from 'react-router-dom'
 import isUrl from 'is-url'
+import passwordValidator from 'password-validator'
 
 class CreatePassword extends Component {
 
@@ -27,8 +31,72 @@ class CreatePassword extends Component {
       error: {
         status: false,
         message: ''
-      }
+      },
+      validPassword: {
+        upperCase: false,
+        lowerCase: false,
+        length: false,
+        symbol: false,
+        number: false
+      },
+      passwordPass: false
     };
+  }
+
+  validatePassword = (password) => {
+    const validPassword =  {
+        upperCase: false,
+        lowerCase: false,
+        length: false,
+        symbol: false,
+        number: false
+    }
+    let passwordPass = false
+    let schema = new passwordValidator()
+    schema.is().min(5)
+    if(schema.validate(password)) {
+      validPassword.length = true
+      passwordPass = true
+    } else {
+      passwordPass = false
+    }
+    schema = new passwordValidator()
+    schema.has().digits()
+    if(schema.validate(password)) {
+      validPassword.number = true
+      passwordPass = true
+    } else {
+      passwordPass = false
+    }
+
+    schema = new passwordValidator()
+    schema.has().uppercase()
+    if(schema.validate(password)) {
+      validPassword.upperCase = true
+      passwordPass = true
+    } else {
+      passwordPass = false
+    }
+
+    schema = new passwordValidator()
+    schema.has().lowercase()
+    if(schema.validate(password)) {
+      validPassword.lowerCase = true
+      passwordPass = true
+    } else {
+      passwordPass = false
+    }
+
+    schema = new passwordValidator()
+    schema.has().symbols()
+    if(schema.validate(password)) {
+      validPassword.symbol = true
+      passwordPass = true
+    } else {
+      passwordPass = false
+    }
+
+    this.setState({ validPassword: validPassword, passwordPass })
   }
   validateURL = (url) => {
     if(!isUrl(url)) {
@@ -43,7 +111,7 @@ class CreatePassword extends Component {
     return true
   }
   validateForm = () => {
-    const { username, password, url } = this.state
+    const { username, password, url, passwordPass } = this.state
     if (url === '') {
       this.setState({
         error: {
@@ -70,6 +138,16 @@ class CreatePassword extends Component {
       return false
     }
     if(!this.validateURL(url)) return false
+    if(!passwordPass) {
+      
+      this.setState({
+        error: {
+          status: true,
+          message: 'Password Not Strength'
+        }
+      })
+      return false
+    }
     return true
   }
   
@@ -92,11 +170,14 @@ class CreatePassword extends Component {
     }
   }
   handleChange = (e) => {
+    if (e.target.name === 'password') {
+      this.validatePassword(e.target.value) 
+    }
     this.setState({ [e.target.name]: e.target.value });
   }
 
   render() {
-    const { error, url, username, password } = this.state
+    const { error, url, username, password, validPassword } = this.state
     if(localStorage.token === undefined){
       return <Redirect to="/login" />
     }
@@ -104,7 +185,7 @@ class CreatePassword extends Component {
       <div className="CreatePasswod">
         <Grid>
           <Row className="show-grid">
-            <Col md={4} mdOffset={4} >
+            <Col md={6} mdOffset={3} >
 							<Breadcrumb>
 								<Breadcrumb.Item >
 								  <Link to="/">Home </Link>
@@ -157,6 +238,31 @@ class CreatePassword extends Component {
                   </FormGroup> 
                 <Button type="button" onClick={this.submitForm} > Save Password </Button>
               </form>
+              <p> 
+                Password Strength: 
+              </p>
+              <ListGroup>
+                <ListGroupItem>
+                  { validPassword.upperCase ? <Glyphicon glyph="ok" />:<Glyphicon glyph="remove" /> }
+                   Password harus memiliki setidaknya satu karakter huruf besar ( upper-case )
+                </ListGroupItem>
+                <ListGroupItem>
+                  { validPassword.lowerCase ? <Glyphicon glyph="ok" />:<Glyphicon glyph="remove" /> }
+                  Password harus memiliki setidaknya satu karakter huruf kecil ( lower-case )
+                </ListGroupItem>
+                <ListGroupItem>
+                  { validPassword.symbol ? <Glyphicon glyph="ok" />:<Glyphicon glyph="remove" /> }
+                  Password harus memiliki setidaknya satu karakter special ( #$@!&%... )
+                </ListGroupItem>
+                <ListGroupItem>
+                  { validPassword.number ? <Glyphicon glyph="ok" />:<Glyphicon glyph="remove" /> }
+                  Password harus memiliki setidaknya satu angka 
+                </ListGroupItem>
+                <ListGroupItem>
+                  { validPassword.length ? <Glyphicon glyph="ok" />:<Glyphicon glyph="remove" /> }
+                  Password harus memiliki panjang (length)  lebih dari 5 karakter
+                </ListGroupItem>
+              </ListGroup>
             </Col>
           </Row>
         </Grid>
