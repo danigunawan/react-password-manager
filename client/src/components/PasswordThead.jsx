@@ -9,6 +9,7 @@ const PasswordThead = () => {
 			<th>Password</th>
 			<th>CreatedAt</th>
 			<th>UpdatedAt</th>
+			<th>Action</th>
 		</tr>
 		</thead>
    )
