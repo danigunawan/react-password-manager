@@ -1,5 +1,4 @@
 import React from 'react'
-import { Navbar as NavbarBS, Nav, NavItem } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import Logout from './Logout'
 
@@ -7,37 +6,19 @@ import Logout from './Logout'
 const Navbar = () => {
 
   return (
-    <NavbarBS>
-      <NavbarBS.Header>
-        <NavbarBS.Brand>
-          <a href="#home">React Password Manager</a>
-        </NavbarBS.Brand>
-      </NavbarBS.Header>
-      <Nav>
-        <NavItem eventKey={1} href="#">
-          <Link to="/">Home </Link>
-        </NavItem>
-				{ localStorage.token !== undefined ?
-					<Logout />
-					:
-					<span></span>
-				}
-				{ localStorage.token === undefined ?
-					<NavItem eventKey={1} >
-						<Link to="/login">Login </Link>
-					</NavItem>
-					:
-					<span></span>
-				}
-				{ localStorage.token === undefined ?
-					<NavItem eventKey={1}>
-						<Link to="/register">Register </Link>
-					</NavItem>
-					:
-					<span></span>
-				}
-      </Nav>
-    </NavbarBS>
+    <nav className="navbar navbar-default">
+      <div className="container-fluid">
+        <div className="navbar-header">
+          <a className="navbar-brand" href="/">React Password Manager</a>
+        </div>
+        <ul className="nav navbar-nav">
+          <li><Link to="/">Home </Link></li>
+          { localStorage.token !== undefined && <Logout /> }
+          { localStorage.token === undefined && <li><Link to="/login">Login </Link></li>}
+          { localStorage.token === undefined && <li><Link to="/register">Register </Link></li>}
+        </ul>
+      </div>
+    </nav>
   )
 }
 
