@@ -16,25 +16,13 @@ import { RingLoader } from 'react-spinners'
 import PasswordSearch from './PasswordSearch'
 
 class PasswordList extends Component {
-  constructor(){
-    super()
-    this.state = {
-      query: ''
-    }
-  }
   componentDidMount () {
     this.props.fetchPassword()
-  }
-
-  handleChange = (e) => {
-    this.setState({ [e.target.name]: e.target.value })
-    this.props.searchPassword(this.state.query)
   }
   
   render() {
     const { error, loading, isSearch, searchPassword } = this.props.password
     let { passwords } = this.props.password
-    const { query  } = this.state
 
     if (isSearch) {
      passwords = searchPassword 
