@@ -2,7 +2,8 @@ import {
   FETCH_PASSWORD,
   ERROR,
   LOADING_START,
-  LOADING_END
+  LOADING_END,
+  SEARCH_PASSWORD
 } from './actionTypes'
 import axios from '../axios'
 
@@ -23,10 +24,18 @@ const fetchPassword = () => {
   }
 }
 
+const searchPassword = (query) => {
+  return {
+    type: SEARCH_PASSWORD,
+    query
+  }
+}
+
 const errorSomethingWrong = { type: ERROR }
 const loadingStart = { type: LOADING_START }
 const loadingEnd = { type: LOADING_END }
 
 export {
-  fetchPassword
+  fetchPassword,
+  searchPassword
 }

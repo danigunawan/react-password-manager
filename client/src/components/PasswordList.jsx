@@ -11,17 +11,34 @@ import PasswordTable from './PasswordTable'
 import { Link, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { fetchPassword } from '../redux/actions'
+import { fetchPassword, searchPassword } from '../redux/actions'
 import { RingLoader } from 'react-spinners'
 
 class PasswordList extends Component {
-
+  constructor(){
+    super()
+    this.state = {
+      query: ''
+    }
+  }
   componentDidMount () {
     this.props.fetchPassword()
   }
+
+  handleChange = (e) => {
+    this.setState({ [e.target.name]: e.target.value })
+    this.props.searchPassword(this.state.query)
+  }
   
   render() {
-    const { error, passwords, loading } = this.props.password
+    const { error, loading, isSearch, searchPassword } = this.props.password
+    let { passwords } = this.props.password
+    const { query  } = this.state
+
+    if (isSearch) {
+     passwords = searchPassword 
+    }
+
     if(localStorage.token == undefined){
 
       return <Redirect to="/login" />
@@ -30,19 +47,28 @@ class PasswordList extends Component {
     if (loading) {
      return <div className="centered"><RingLoader/></div> 
     }
+
     return (
       <div className="PasswordList">
         <Grid>
           <Row className="show-grid">
             <Col md={8} mdOffset={2} >
-							<Breadcrumb>
-								<Breadcrumb.Item active>
-								<Link to="/">Home </Link>
-								</Breadcrumb.Item>
-							</Breadcrumb>
-							<Link className="btn btn-primary" to="/create"> Save New Passsword </Link>
+              <Breadcrumb>
+                <Breadcrumb.Item active>
+                <Link to="/">Home </Link>
+                </Breadcrumb.Item>
+              </Breadcrumb>
+              <input 
+                type="text" 
+                className="form-control" 
+                name="query" 
+                value={query} 
+                placeholder="Search URL "
+                onChange={this.handleChange}
+              />
+              <Link className="btn btn-primary" to="/create"> Save New Passsword </Link>
               <Alert status="danger" show={error.status} message={error.message} />
-							<PasswordTable passwords={passwords} />
+              <PasswordTable passwords={passwords} />
             </Col>
           </Row>
         </Grid>
@@ -57,6 +83,6 @@ const mapStateToProps = state => {
   }
 }
 
-const mapDispatchToProps = dispatch => bindActionCreators({ fetchPassword }, dispatch)
+const mapDispatchToProps = dispatch => bindActionCreators({ fetchPassword, searchPassword }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(PasswordList);
