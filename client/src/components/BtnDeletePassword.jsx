@@ -30,7 +30,6 @@ class BtnDeletePassword extends Component {
 			const { data }  = resp
 			if(data._id === id){
         app.props.fetchPassword()
-				app.props.history.push('/'); 
 			}
 			}).catch( err => {
 				console.log(err)
