@@ -1,5 +1,6 @@
 import { 
   FETCH_PASSWORD,
+  DELETE_PASSWORD,
   ERROR,
   LOADING_START,
   LOADING_END,
@@ -27,6 +28,11 @@ const passwordReducer = (state = initialState, action) => {
       break;
     case FETCH_PASSWORD:
      return {...state, passwords: action.data} 
+      break;
+    case DELETE_PASSWORD:
+      console.log('delete password ========================>')
+      const passwords = state.passwords.filter(p => p._id !== action.id )
+      return {...state, passwords} 
       break;
     case SEARCH_PASSWORD:
       if (action.query) {

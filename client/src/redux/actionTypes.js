@@ -1,4 +1,5 @@
 export const FETCH_PASSWORD = 'FETCH_PASSWORD'
+export const DELETE_PASSWORD = 'DELETE_PASSWORD'
 export const SEARCH_PASSWORD = 'SEARCH_PASSWORD' 
 export const ERROR = 'ERROR'
 export const LOADING_START = 'LOADING_START'

@@ -4,7 +4,7 @@ import {
 } from 'react-bootstrap';
 
 import axios from '../axios'
-import { fetchPassword } from '../redux/actions'
+import {  deletePassword } from '../redux/actions'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
@@ -26,17 +26,7 @@ class BtnDeletePassword extends Component {
 
     const app = this
 		const { id } = this.props
-		axios.delete(`/passwords/${id}`, { headers: { token: localStorage.token }}).then(resp => {
-			const { data }  = resp
-			if(data._id === id){
-        app.props.fetchPassword()
-			}
-			}).catch( err => {
-				console.log(err)
-				if(err.request.status === 500) {
-					this.setState({ error: { status: true, message: 'Something Went Wrong' } })
-				}
-			})
+		this.props.deletePassword(id)
   }
 
   render() {
@@ -47,6 +37,6 @@ class BtnDeletePassword extends Component {
   }
 }
 
-const mapDispatchToProps = dispatch => bindActionCreators({ fetchPassword }, dispatch)
+const mapDispatchToProps = dispatch => bindActionCreators({ deletePassword }, dispatch)
 
 export default connect(null, mapDispatchToProps)(BtnDeletePassword);

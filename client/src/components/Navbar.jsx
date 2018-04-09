@@ -17,7 +17,7 @@ const Navbar = () => {
         <NavItem eventKey={1} href="#">
           <Link to="/">Home </Link>
         </NavItem>
-				{ localStorage.token != undefined ?
+				{ localStorage.token !== undefined ?
 					<Logout />
 					:
 					<span></span>

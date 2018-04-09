@@ -6,7 +6,6 @@ import {
 	Breadcrumb
 } from 'react-bootstrap';
 import Alert from './AlertPanel'
-import axios from '../axios'
 import PasswordTable from './PasswordTable'
 import { Link, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
@@ -28,7 +27,7 @@ class PasswordList extends Component {
      passwords = searchPassword 
     }
 
-    if(localStorage.token == undefined){
+    if(localStorage.token === undefined){
 
       return <Redirect to="/login" />
     }

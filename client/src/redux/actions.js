@@ -1,5 +1,6 @@
 import {
   FETCH_PASSWORD,
+  DELETE_PASSWORD,
   ERROR,
   LOADING_START,
   LOADING_END,
@@ -24,6 +25,25 @@ const fetchPassword = () => {
   }
 }
 
+const deletePassword = (id) => {
+
+  return dispatch => {
+		axios.delete(`/passwords/${id}`, { headers: { token: localStorage.token }}).then(resp => {
+			const { data }  = resp
+        dispatch({
+          type: DELETE_PASSWORD,
+          id
+        })
+    }).catch( err => {
+      console.log(err)
+      if(err.request.status === 500) {
+        dispatch(errorSomethingWrong)
+        dispatch(loadingEnd)
+      }
+    })
+  }
+}
+
 const searchPassword = (query) => {
   return {
     type: SEARCH_PASSWORD,
@@ -37,5 +57,6 @@ const loadingEnd = { type: LOADING_END }
 
 export {
   fetchPassword,
-  searchPassword
+  searchPassword,
+  deletePassword
 }
