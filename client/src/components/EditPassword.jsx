@@ -15,6 +15,7 @@ import { Link, Redirect } from 'react-router-dom'
 import isUrl from 'is-url'
 import passwordValidator from 'password-validator'
 import PasswordValidList from './PasswordValidList'
+import { RingLoader } from 'react-spinners'
 
 class EditPassword extends Component {
 
@@ -30,6 +31,7 @@ class EditPassword extends Component {
         status: false,
         message: ''
       },
+      loading: false,
       validPassword: {
         upperCase: false,
         lowerCase: false,
@@ -153,12 +155,14 @@ class EditPassword extends Component {
  	
 	fetchPassword = () => {
 		const { id } = this.props.match.params
+    this.setState({ loading: true })
 		axios.get(`/passwords/${id}`, { headers: { token: localStorage.token }}).then(resp => {
 			const { data } = resp.data
 			this.setState({ username: data.username, password: data.password, url: data.url})
+      this.setState({ loading: false })
       this.validatePassword(data.password)
 		}).catch( err => {
-			this.setState({ error: { status: true, message: 'Something Went Wrong'} })
+			this.setState({ error: { status: true, message: 'Something Went Wrong'}, loading: false })
 		})	
 	} 
   submitForm = () => {
@@ -192,9 +196,12 @@ class EditPassword extends Component {
 	}
 
   render() {
-    const { error, url, username, password, validPassword } = this.state
+    const { loading, error, url, username, password, validPassword } = this.state
     if(localStorage.token === undefined){
       return <Redirect to="/login" />
+    }
+    if (loading) {
+      return <div className="centered"  ><RingLoader /></div>
     }
     return (
       <div className="CreatePasswod">
