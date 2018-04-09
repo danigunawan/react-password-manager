@@ -6,7 +6,7 @@ function PasswordValidItem(props) {
   return (
     <ListGroupItem>
       { validPassword ? <Glyphicon glyph="ok" />:<Glyphicon glyph="remove" /> }
-        { message }
+         { message }
     </ListGroupItem>
   );
 }

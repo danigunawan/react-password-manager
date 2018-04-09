@@ -11,7 +11,7 @@ const PasswordItem = (props) => {
       <tr key={p._id}>
         <td>{p.url}</td>
         <td>{p.username}</td>
-        <td>{p.password}</td>
+        <td>{Array(p.password.length).join("*")}</td>
         <td>{date.format(new Date(p.createdAt), 'DD MMM  YYYY')}</td>
         <td>{date.format(new Date(p.updatedAt), 'DD MMM YYYY')}</td>
 				<td>
