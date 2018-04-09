@@ -1,19 +1,27 @@
 import { 
   FETCH_PASSWORD,
-  ERROR
+  ERROR,
+  LOADING_START,
+  LOADING_END
 } from './actionTypes'
 import { combineReducers } from 'redux'
 
 const initialState = {
   passwords: [],
   error: {
-  status: false,
-  message: ''
+    status: false,
+    message: ''
   },
   loading: false
 }
 const passwordReducer = (state = initialState, action) => {
   switch (action.type) {
+    case LOADING_START:
+     return {...state, loading: true} 
+      break;
+    case LOADING_END:
+     return {...state, loading: false} 
+      break;
     case FETCH_PASSWORD:
      return {...state, passwords: action.data} 
       break;

@@ -12,6 +12,7 @@ import { Link, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { fetchPassword } from '../redux/actions'
+import { RingLoader } from 'react-spinners'
 
 class PasswordList extends Component {
 
@@ -20,10 +21,14 @@ class PasswordList extends Component {
   }
   
   render() {
-    const { error, passwords } = this.props.password
+    const { error, passwords, loading } = this.props.password
     if(localStorage.token == undefined){
 
       return <Redirect to="/login" />
+    }
+
+    if (loading) {
+     return <div className="centered"><RingLoader/></div> 
     }
     return (
       <div className="PasswordList">
