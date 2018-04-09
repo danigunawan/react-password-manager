@@ -13,6 +13,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { fetchPassword, searchPassword } from '../redux/actions'
 import { RingLoader } from 'react-spinners'
+import PasswordSearch from './PasswordSearch'
 
 class PasswordList extends Component {
   constructor(){
@@ -58,14 +59,7 @@ class PasswordList extends Component {
                 <Link to="/">Home </Link>
                 </Breadcrumb.Item>
               </Breadcrumb>
-              <input 
-                type="text" 
-                className="form-control" 
-                name="query" 
-                value={query} 
-                placeholder="Search URL "
-                onChange={this.handleChange}
-              />
+              <PasswordSearch />
               <Link className="btn btn-primary" to="/create"> Save New Passsword </Link>
               <Alert status="danger" show={error.status} message={error.message} />
               <PasswordTable passwords={passwords} />
