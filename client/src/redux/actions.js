@@ -29,7 +29,6 @@ const deletePassword = (id) => {
 
   return dispatch => {
 		axios.delete(`/passwords/${id}`, { headers: { token: localStorage.token }}).then(resp => {
-			const { data }  = resp
         dispatch({
           type: DELETE_PASSWORD,
           id
