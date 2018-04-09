@@ -6,7 +6,7 @@ import {Table} from 'react-bootstrap'
 const PasswordTable = (props) => {
 	const { passwords} = props
 	return (
-    <Table striped bordered condensed hover>
+    <Table responsive striped bordered condensed hover>
 			<PasswordThead />
 			<PasswordTbody passwords={passwords} />
 		</Table>

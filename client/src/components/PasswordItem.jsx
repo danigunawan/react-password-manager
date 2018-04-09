@@ -1,6 +1,7 @@
 import React from 'react'
 import BtnDeletePassword from './BtnDeletePassword'
 import {Link} from 'react-router-dom'
+import date from 'date-and-time'
 
 const PasswordItem = (props) => {
   const { passwords } = props
@@ -11,8 +12,8 @@ const PasswordItem = (props) => {
         <td>{p.url}</td>
         <td>{p.username}</td>
         <td>{p.password}</td>
-        <td>{p.updatedAt}</td>
-        <td>{p.createdAt}</td>
+        <td>{date.format(new Date(p.createdAt), 'DD MMM  YYYY')}</td>
+        <td>{date.format(new Date(p.updatedAt), 'DD MMM YYYY')}</td>
 				<td>
 					<BtnDeletePassword id={p._id} />
 					<Link  to={ urlEdit } className="btn btn-warning" > Edit </Link>
