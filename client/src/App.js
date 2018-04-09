@@ -7,6 +7,7 @@ import Register from './components/Register'
 import CreatePassword from './components/CreatePassword'
 import EditPassword from './components/EditPassword'
 import Navbar from './components/Navbar'
+import NotFound from './components/NotFound'
 
 class App extends Component {
   render() {
@@ -19,6 +20,7 @@ class App extends Component {
           <Route exact path="/register" component={ Register }/>
           <Route exact path="/create" component={ CreatePassword }/>
           <Route exact path="/edit/:id" component={ EditPassword }/>
+          <Route component={ NotFound } />
         </Switch>
       </div>
     );
