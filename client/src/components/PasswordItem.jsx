@@ -8,7 +8,7 @@ import {
   Button
 } from 'react-bootstrap'
 
-const PasswordItem = (props) => {
+export const PasswordItem = (props) => {
   const { passwords, deletePassword,  unshowPassword } = props
 
   return passwords.map(p => {
