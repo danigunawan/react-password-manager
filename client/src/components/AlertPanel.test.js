@@ -15,7 +15,6 @@ describe('<AlertPanel />', () => {
     expect(wrapper.contains(<span></span>)).toBe(true)
   })
 
-  const wrapper = shallow(<AlertPanel />)
   it('should render Alert with message terjadi kesalahan', () => {
     const wrapper = render(<AlertPanel show={true} status="danger" message="terjadi kesalahan" />)
     expect(wrapper.text()).toBe("terjadi kesalahan")
