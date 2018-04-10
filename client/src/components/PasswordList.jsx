@@ -14,7 +14,7 @@ import { fetchPassword, searchPassword } from '../redux/actions'
 import { RingLoader } from 'react-spinners'
 import PasswordSearch from './PasswordSearch'
 
-class PasswordList extends Component {
+export class PasswordList extends Component {
   componentDidMount () {
     this.props.fetchPassword()
   }
