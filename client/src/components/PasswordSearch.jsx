@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { searchPassword } from '../redux/actions'
 
-class PasswordSearch extends Component {
+export class PasswordSearch extends Component {
 
   constructor(props) {
     super(props);
@@ -26,7 +26,7 @@ class PasswordSearch extends Component {
           className="form-control" 
           name="query" 
           value={query} 
-          placeholder="Search URL "
+          placeholder="Search URL"
           onChange={this.handleChange}
         />
       </div>
