@@ -48,7 +48,6 @@ export class PasswordList extends Component {
               </Breadcrumb>
               <PasswordSearch />
               <Link className="btn btn-primary" to="/create"> Save New Passsword </Link>
-              <Alert status="danger" show={error.status} message={error.message} />
               <PasswordTable passwords={passwords} />
             </Col>
           </Row>
