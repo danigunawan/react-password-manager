@@ -15,7 +15,7 @@ import { bindActionCreators } from 'redux'
 import { showPassword } from '../redux/actions'
 import { Redirect  } from 'react-router-dom'
 
-class ShowPassword extends Component {
+export class ShowPassword extends Component {
 
  constructor(props, context) {
     super(props, context);
@@ -94,7 +94,7 @@ class ShowPassword extends Component {
                   controlId="email"
                 >
                   <ControlLabel>Username</ControlLabel>
-                  <FormControl
+                  <input 
                     type="text"
                     value={this.state.email}
                     name="email"
@@ -107,7 +107,7 @@ class ShowPassword extends Component {
                   controlId="password"
                 >
                   <ControlLabel>Password</ControlLabel>
-                  <FormControl
+                  <input 
                     type="password"
                     value={this.state.password}
                     name="password"
@@ -116,7 +116,7 @@ class ShowPassword extends Component {
                   />
                   <FormControl.Feedback />
                  </FormGroup> 
-                <Button type="button" onClick={this.submitForm} > Login </Button>
+                <button className="btn btn-default" type="button" onClick={this.submitForm} > Login </button>
               </form>
             </Col>
           </Row>

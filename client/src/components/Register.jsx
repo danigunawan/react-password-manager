@@ -101,7 +101,7 @@ class Register extends Component {
                     controlId="email"
                   >
                     <ControlLabel>Username</ControlLabel>
-                    <FormControl
+                    <input 
                       type="text"
                       value={this.state.email}
                       name="email"
@@ -114,7 +114,7 @@ class Register extends Component {
                     controlId="name"
                   >
                     <ControlLabel>Name</ControlLabel>
-                    <FormControl
+                    <input 
                       type="text"
                       value={this.state.name}
                       name="name"
@@ -127,7 +127,7 @@ class Register extends Component {
                     controlId="password"
                   >
                     <ControlLabel>Password</ControlLabel>
-                    <FormControl
+                    <input 
                       type="password"
                       value={this.state.password}
                       name="password"

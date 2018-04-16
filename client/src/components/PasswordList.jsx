@@ -57,7 +57,7 @@ export class PasswordList extends Component {
   }
 }
 
-const mapStateToProps = state => {
+export const mapStateToProps = state => {
   return {
     password: state.password
   }

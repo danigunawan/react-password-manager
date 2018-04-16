@@ -48,10 +48,11 @@ describe('<PasswordValidItem />', () => {
       <td>haidar</td>,
       <td>hallow</td>,
       <td>facebook</td>,
-      <Link className="btn btn-primary" to={`/show-password/${passwords[0]._id}`}>Show </Link>,
+      <Link className="btn btn-primary" to={'/show-password/'+ passwords[0]._id}>Show </Link>,
       <Button bsStyle="danger" onClick={ () => {} } >Delete</Button>,
-			<Link  to='/edit' className="btn btn-warning" > Edit </Link>
+			<Link  to="/edit" className="btn btn-warning" > Edit </Link>
       ]))
   })
+
 
 })

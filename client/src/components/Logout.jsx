@@ -2,17 +2,16 @@ import React from 'react'
 import { withRouter } from 'react-router-dom'
 import { NavItem } from 'react-bootstrap'
 
-const Logout = withRouter((props) => {
+export const Logout = (props) => {
   const submitLogout = () => {
     localStorage.removeItem('token')
 		props.history.push('/login'); 
+    return true
   }
 
   return ( 
-    <NavItem eventKey={1} href="#" onClick={submitLogout}>
-      Logout
-    </NavItem>
+    <li><a onClick={ submitLogout } >Logout </a></li>
   )
-})
+}
 
-export default Logout
+export default withRouter(Logout)

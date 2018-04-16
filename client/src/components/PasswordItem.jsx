@@ -19,7 +19,7 @@ export const PasswordItem = (props) => {
         <td>{p.username}</td>
         <td>{ p.show ? p.password :  Array(p.password.length).join("*")}
           { p.show ?
-            <Button bsStyle="primary" onClick={() => unshowPassword(p._id)}>Unshow </Button>
+            <button className="btn-unshow btn btn-primary" onClick={ () => unshowPassword(p._id) } > Unshow </button>
             :
             <Link className="btn btn-primary" to={`/show-password/${p._id}`}>Show </Link>
           }

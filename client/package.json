@@ -25,5 +25,13 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom --setupTestFrameworkScriptFile ./src/setupFiles.js",
     "eject": "react-scripts eject"
-  }
+  },
+  "jest": {
+  "collectCoverageFrom": [
+    "src/**/*.{js,jsx}",
+    "!src/redux/*.js",
+    "!src/index.js",
+    "!src/registerServiceWorker.js"
+  ]
+}
 }

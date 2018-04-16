@@ -223,7 +223,7 @@ class EditPassword extends Component {
                     controlId="name"
                   >
                     <ControlLabel>URL</ControlLabel>
-                    <FormControl
+                    <input 
                       type="text"
                       value={url}
                       name="url"
@@ -236,7 +236,7 @@ class EditPassword extends Component {
                     controlId="username"
                   >
                     <ControlLabel>Username</ControlLabel>
-                    <FormControl
+                    <input 
                       type="text"
                       value={username}
                       name="username"
@@ -249,7 +249,7 @@ class EditPassword extends Component {
                     controlId="password"
                   >
                     <ControlLabel>Password</ControlLabel>
-                    <FormControl
+                    <input 
                       type="password"
                       value={password}
                       name="password"
@@ -258,7 +258,7 @@ class EditPassword extends Component {
                     />
                     <FormControl.Feedback />
                   </FormGroup> 
-                <Button type="button" onClick={this.submitForm} > Edit Password </Button>
+                <button className="btn btn-default" type="button" onClick={this.submitForm} > Edit Password </button>
               </form>
               <PasswordValidList validPassword={validPassword} />
             </Col>

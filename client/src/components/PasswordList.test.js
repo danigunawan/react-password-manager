@@ -8,7 +8,8 @@ import { Link, Redirect } from 'react-router-dom'
 import { RingLoader } from 'react-spinners'
 import PasswordSearch from './PasswordSearch'
 
-import {PasswordList} from './PasswordList'
+
+import {PasswordList, mapStateToProps} from './PasswordList'
 
 // React 16 Enzyme adapter
 Enzyme.configure({ adapter: new Adapter() });
@@ -79,6 +80,13 @@ describe('<PasswordList />', () => {
       }
     const wrapper = shallow(<PasswordList password={password} fetchPassword={() => {}}  />)
     expect(wrapper.instance().props.password.isSearch).toBe(true)
+
+  })
+  it('should have password property on mapStateToProps', () => {
+
+    const state = { password: true }
+    const result = mapStateToProps(state)
+    expect(result).toHaveProperty('password', true)
 
   })
 

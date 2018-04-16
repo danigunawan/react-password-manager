@@ -92,29 +92,28 @@ class Login extends Component {
                     controlId="email"
                   >
                     <ControlLabel>Username</ControlLabel>
-                    <FormControl
-                      type="text"
-                      value={this.state.email}
-                      name="email"
-                      placeholder="Enter Username"
-                      onChange={this.handleChange}
-                    />
-                    <FormControl.Feedback />
+                      <input 
+                        type="text"
+                        value={this.state.email}
+                        name="email"
+                        placeholder="Enter Username"
+                        onChange={this.handleChange}
+                      />
                   </FormGroup> 
                  <FormGroup
                     controlId="password"
                   >
                     <ControlLabel>Password</ControlLabel>
-                    <FormControl
-                      type="password"
-                      value={this.state.password}
-                      name="password"
-                      placeholder="Enter Password"
-                      onChange={this.handleChange}
-                    />
+                      <input 
+                        type="password"
+                        value={this.state.password}
+                        name="password"
+                        placeholder="Enter Password"
+                        onChange={this.handleChange}
+                      />
                     <FormControl.Feedback />
                   </FormGroup> 
-                <Button type="button" onClick={this.submitForm} > Login </Button>
+                <button className="btn btn-default" type="button" onClick={this.submitForm} > Login </button>
               </form>
             </Col>
           </Row>

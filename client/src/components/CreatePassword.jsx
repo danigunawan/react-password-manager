@@ -200,7 +200,7 @@ class CreatePassword extends Component {
                     controlId="name"
                   >
                     <ControlLabel>URL</ControlLabel>
-                    <FormControl
+                    <input 
                       type="text"
                       value={url}
                       name="url"
@@ -213,7 +213,7 @@ class CreatePassword extends Component {
                     controlId="username"
                   >
                     <ControlLabel>Username</ControlLabel>
-                    <FormControl
+                    <input 
                       type="text"
                       value={username}
                       name="username"
@@ -226,7 +226,7 @@ class CreatePassword extends Component {
                     controlId="password"
                   >
                     <ControlLabel>Password</ControlLabel>
-                    <FormControl
+                    <input 
                       type="password"
                       value={password}
                       name="password"
@@ -235,7 +235,7 @@ class CreatePassword extends Component {
                     />
                     <FormControl.Feedback />
                   </FormGroup> 
-                <Button type="button" onClick={this.submitForm} > Save Password </Button>
+                <button className="btn btn-default" type="button" onClick={this.submitForm} > Save Password </button>
               </form>
               <p> 
                 Password Strength: 
